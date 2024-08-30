@@ -1,0 +1,119 @@
+Aqui estão alguns exemplos de códigos Cypress para diferentes cenários de teste:
+
+1. Verificar a Resposta de uma API
+javascript
+Copiar código
+describe('Teste API - Verificar Resposta', () => {
+  it('Deve retornar status 200 e o corpo esperado', () => {
+    cy.request('https://example.com/api/endpoint')
+      .then((response) => {
+        expect(response.status).to.eq(200);
+        expect(response.body).to.have.property('key', 'value');
+      });
+  });
+});
+2. Verificar se a Lista Está Vazia
+javascript
+Copiar código
+describe('Teste API - Lista Vazia', () => {
+  it('Deve retornar uma lista vazia', () => {
+    cy.request('https://example.com/api/empty-list')
+      .then((response) => {
+        expect(response.status).to.eq(200);
+        expect(response.body).to.be.an('array').that.is.empty;
+      });
+  });
+});
+3. Verificar um Elemento Específico na Lista
+javascript
+Copiar código
+describe('Teste API - Elemento na Lista', () => {
+  it('Deve conter um elemento específico na lista', () => {
+    cy.request('https://example.com/api/list')
+      .then((response) => {
+        expect(response.status).to.eq(200);
+        const item = response.body.find(element => element.name === 'Item Name');
+        expect(item).to.not.be.undefined;
+      });
+  });
+});
+4. Testar Formulário de Login
+javascript
+Copiar código
+describe('Teste Formulário de Login', () => {
+  it('Deve fazer login com sucesso', () => {
+    cy.visit('https://example.com/login');
+    cy.get('input[name="username"]').type('user');
+    cy.get('input[name="password"]').type('password');
+    cy.get('button[type="submit"]').click();
+    cy.url().should('include', '/dashboard');
+  });
+});
+5. Testar Redirecionamento Após Login
+javascript
+Copiar código
+describe('Teste Redirecionamento Após Login', () => {
+  it('Deve redirecionar para o dashboard após login', () => {
+    cy.visit('https://example.com/login');
+    cy.get('input[name="username"]').type('user');
+    cy.get('input[name="password"]').type('password');
+    cy.get('button[type="submit"]').click();
+    cy.url().should('eq', 'https://example.com/dashboard');
+  });
+});
+6. Verificar Presença de Texto em uma Página
+javascript
+Copiar código
+describe('Teste de Presença de Texto', () => {
+  it('Deve conter o texto "Bem-vindo"', () => {
+    cy.visit('https://example.com');
+    cy.contains('Bem-vindo').should('be.visible');
+  });
+});
+7. Testar a Navegação Entre Páginas
+javascript
+Copiar código
+describe('Teste de Navegação', () => {
+  it('Deve navegar para a página Sobre', () => {
+    cy.visit('https://example.com');
+    cy.get('a[href="/sobre"]').click();
+    cy.url().should('include', '/sobre');
+    cy.contains('Sobre nós').should('be.visible');
+  });
+});
+8. Testar Upload de Arquivo
+javascript
+Copiar código
+describe('Teste de Upload de Arquivo', () => {
+  it('Deve fazer upload de um arquivo', () => {
+    cy.visit('https://example.com/upload');
+    cy.get('input[type="file"]').attachFile('path/to/file.jpg');
+    cy.get('button[type="submit"]').click();
+    cy.contains('Upload realizado com sucesso').should('be.visible');
+  });
+});
+9. Testar um Formulário com Múltiplos Campos
+javascript
+Copiar código
+describe('Teste de Formulário Completo', () => {
+  it('Deve preencher e enviar o formulário com sucesso', () => {
+    cy.visit('https://example.com/form');
+    cy.get('input[name="firstName"]').type('John');
+    cy.get('input[name="lastName"]').type('Doe');
+    cy.get('input[name="email"]').type('john.doe@example.com');
+    cy.get('input[name="phone"]').type('123456789');
+    cy.get('button[type="submit"]').click();
+    cy.contains('Formulário enviado com sucesso').should('be.visible');
+  });
+});
+10. Testar um Pop-up de Confirmação
+javascript
+Copiar código
+describe('Teste de Pop-up de Confirmação', () => {
+  it('Deve aceitar o pop-up de confirmação', () => {
+    cy.visit('https://example.com/confirmation');
+    cy.get('button.confirm').click();
+    cy.on('window:confirm', () => true);
+    cy.contains('Ação confirmada').should('be.visible');
+  });
+});
